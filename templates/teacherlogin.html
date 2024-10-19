@@ -1,0 +1,20 @@
+<html>
+<head><title>Login - Teacher</title>
+<link rel = "icon" href = "/static/img/logo.png" type = "image/x-icon">
+<link rel="stylesheet" href="/static/css/dist/dark.min.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+<center>
+<h1>Login as a Teacher</h1>
+
+<form action="/teacher/login" method="POST">
+<input type="text" maxlength="15" id="username" name="username" placeholder="Username..." autocomplete="off">
+<input type="password" maxlength="15" minlength="5" id="password" name="password" placeholder="Password..." autocomplete="off">
+<input type="submit" value="Login">
+</form>
+
+{{msg}}
+</center>
+</body>
+</html>

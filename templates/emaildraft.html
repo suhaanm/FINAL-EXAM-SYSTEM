@@ -1,0 +1,251 @@
+<html>
+    <head>
+        <title>Draft - {{examkey}}</title>
+        <meta name="viewport" content="width=device-width,initial-scale=1">
+        <link rel = "icon" href = "/static/img/logo.png" type = "image/x-icon">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://use.fontawesome.com/598c8aa2ed.js"></script>
+    </head>
+    <body>
+<script>
+
+window.onbeforeunload = function() {
+  return "Are you sure you want to navigate away?";
+}
+
+$(document).ready(function() {
+
+    // Tooltip
+    $('[data-toggle="tooltip"]').tooltip(); 
+
+    // WYSIWYG toolbar
+
+    $('.toolbar a').click(function(e) {
+
+        var command = $(this).data('command');
+   
+        if (command == 'h1' || command == 'h2' || command == 'p') {
+            document.execCommand('formatBlock', false, command);
+        }
+        
+        if (command == 'forecolor' || command == 'backcolor') {
+            document.execCommand($(this).data('command'), false, $(this).data('value'));
+        }
+        
+        if (command == 'createlink' || command == 'insertimage') {
+            url = prompt('Enter the link here: ','https:\/\/');
+            document.execCommand($(this).data('command'), false, url);
+        }
+        
+        else document.execCommand($(this).data('command'), false, null);
+   
+    });
+
+
+
+// AUTO SAVE (content will be saved locally)
+
+(function() {
+
+    try {
+
+        (window.localStorage.getItem) // will throw in Firefox under some settings
+    } catch (e) {
+
+        return; // quit because dom.storage.enabled is false
+    }
+
+    var title = document.querySelector('#title');
+    var description = document.querySelector('#description');
+
+    // place content from previous edit
+    if (!description.innerHTML || !title.innerHTML) {
+
+        //description.innerHTML = window.localStorage.getItem('description');
+        //title.innerHTML = window.localStorage.getItem('title');
+        //description.innerHTML = "{{finaldraft}}";
+        //title.innerHTML = "{{finaltitle}}";
+        //description.innerHTML = document.getElementById('predraft').value;
+        //title.innerHTML = document.getElementById('pretitle').value;
+
+    }
+
+
+
+    // your content will be saved locally
+    document.querySelector('#description').addEventListener('keyup', function() {
+
+        //window.localStorage.setItem('description', description.innerHTML);
+        //window.localStorage.setItem('title', title.innerHTML);
+        document.getElementById('draftdraft').value = description.innerHTML;
+        document.getElementById('titledraft').value = title.innerHTML;
+
+
+    }, false);
+
+    document.querySelector('#title').addEventListener('keyup', function() {
+
+        //window.localStorage.setItem('description', description.innerHTML);
+        //window.localStorage.setItem('title', title.innerHTML);
+        document.getElementById('draftdraft').value = description.innerHTML;
+        document.getElementById('titledraft').value = title.innerHTML;
+
+
+    }, false);
+
+
+})();
+
+
+
+});
+</script>
+         <div class="container">
+           <div class="encloser">
+            <center><div class="toolbar">
+                <a href="#" data-command='undo' data-toggle="tooltip" data-placement="bottom" title="Undo"><i class='fa fa-undo'></i></a>
+                <a href="#" data-command='redo' data-toggle="tooltip" data-placement="bottom" title="Redo"><i class='fa fa-repeat'></i></a>
+                <a href="#" data-command='bold' data-toggle="tooltip" data-placement="bottom" title="Bold"><i class='fa fa-bold'></i></a>
+                <a href="#" data-command='italic' data-toggle="tooltip" data-placement="bottom" title="Italic"><i class='fa fa-italic'></i></a>
+                <a href="#" data-command='underline' data-toggle="tooltip" data-placement="bottom" title="Underline"><i class='fa fa-underline'></i></a>
+                <a href="#" data-command='strikeThrough' data-toggle="tooltip" data-placement="bottom" title="Strike Through"><i class='fa fa-strikethrough'></i></a>
+                <a href="#" data-command='justifyLeft' data-toggle="tooltip" data-placement="bottom" title="Justify Left"><i class='fa fa-align-left'></i></a>
+                <a href="#" data-command='justifyCenter' data-toggle="tooltip" data-placement="bottom" title="Justify Center"><i class='fa fa-align-center'></i></a>
+                <a href="#" data-command='justifyRight' data-toggle="tooltip" data-placement="bottom" title="Justify Right"><i class='fa fa-align-right'></i></a>
+                <a href="#" data-command='justifyFull' data-toggle="tooltip" data-placement="bottom" title="Justify Full"><i class='fa fa-align-justify'></i></a>
+                <a href="#" data-command='indent' data-toggle="tooltip" data-placement="bottom" title="Indent"><i class='fa fa-indent'></i></a>
+                <a href="#" data-command='outdent' data-toggle="tooltip" data-placement="bottom" title="Outdent"><i class='fa fa-outdent'></i></a>
+                <a href="#" data-command='insertUnorderedList' data-toggle="tooltip" data-placement="bottom" title="Insert Unordered List"><i class='fa fa-list-ul'></i></a>
+                <a href="#" data-command='insertOrderedList' data-toggle="tooltip" data-placement="bottom" title="Insert Ordered List"><i class='fa fa-list-ol'></i></a>
+                <a href="#" data-command='h1' data-toggle="tooltip" data-placement="bottom" title="H1">h1</a>
+                <a href="#" data-command='h2' data-toggle="tooltip" data-placement="bottom" title="H2">h2</a>
+                <a href="#" data-command='createlink' data-toggle="tooltip" data-placement="bottom" title="Create Link"><i class='fa fa-link'></i></a>
+                <a href="#" data-command='unlink' data-toggle="tooltip" data-placement="bottom" title="Unlink"><i class='fa fa-unlink'></i></a>
+                <a href="#" data-command='insertimage' data-toggle="tooltip" data-placement="bottom" title="Insert Image"><i class='fa fa-image'></i></a>
+                <a href="#" data-command='p' data-toggle="tooltip" data-placement="bottom" title="Paragraph"><i class='fa fa-paragraph'></i></a>
+                <a href="#" data-command='subscript' data-toggle="tooltip" data-placement="bottom" title="Subscript"><i class='fa fa-subscript'></i></a>
+                <a href="#" data-command='superscript' data-toggle="tooltip" data-placement="bottom" title="Superscript"><i class='fa fa-superscript'></i></a>
+            </div></center>
+            <hr class="hrrule">
+            
+
+            <div is="#editor">
+                <h2><div id="title" class="editor" placeholder="Title" contenteditable="true">{{finaltitle|safe}}</div></h2> <hr class="hrrule">
+                <div id="description" class="editor" placeholder="Description ..." contenteditable="true">{{finaldraft|safe}}</div>
+            </div>
+
+<!--<p id="predraft" name="predraft" style="display:none;">{{finaldraft|safe}}</p>
+<p id="pretitle" name="pretitle" style="display:none;">{{finaldraft|safe}}</p>-->
+</div>
+            <form action="/teacher/dashboard/responses/mail/draft/{{examkey}}" method="POST">
+              <input type="text" id="titledraft" name="titledraft" style="display:none;">
+              <input type="text" id="draftdraft" name="draftdraft" style="display:none;">
+              <center><input type="submit" value="Save"></center>
+            </form>
+        </div>
+<style>
+.form-control {
+    font-size: 20px;
+    outline: none;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+/*.toolbar {
+  text-align: center;
+}*/
+
+a {
+  cursor: pointer;
+}
+
+.toolbar a{
+    font-size: 18px;
+    text-align: center;
+    border: 1px solid #AAA;
+    background: #FFF;
+    font-family: 'Candal';
+    border-radius: 1px;
+    color: black;
+    padding: 5px;
+    width: 2em;
+    margin: -2px;
+    margin-top: 10px;
+    display: inline-block;
+    text-decoration: none;
+    box-shadow: 0px 1px 0px #CCC;
+}
+
+.toolbar a:hover {
+  background: #f2f2f2;
+  border-color: #8c8c8c;
+}
+
+a[data-command='redo'],
+a[data-command='strikeThrough'],
+a[data-command='justifyFull'],
+a[data-command='insertOrderedList'],
+a[data-command='outdent'],
+a[data-command='p'],
+a[data-command='superscript'] {
+  margin-right: 5px;
+  border-radius: 0 3px 3px 0;
+}
+
+a[data-command='undo'],
+.fore-wrapper,
+a[data-command='justifyLeft'],
+a[data-command='insertUnorderedList'],
+a[data-command='indent'],
+a[data-command='h1'],
+a[data-command='subscript'] {
+  border-radius: 3px 0 0 3px;
+}
+
+.editor{
+  outline: none;
+  border: none;
+}
+
+.hrrule {
+  border: 2px solid #E9EAEC;
+  border-radius: 3px;
+}
+
+input[type=submit] {
+  background-color: #2B82CF;
+  color: white;
+  font-size: 30px;
+  padding: 10px;
+  margin: 5px;
+  border-radius: 15px;
+  border: 3px solid #2B82CF;
+}
+
+.encloser {
+  margin: 10px;
+  padding: 5px;
+  border: 2px solid #E9EAEC;
+  border-radius: 5px;
+}
+
+input[type=submit]:hover {
+  background-color: #5CABF1;
+}
+
+[contenteditable=true]:empty:before {
+  content: attr(placeholder);
+  display: block; /* For Firefox */
+  
+}
+
+#description{
+  font-size:20px;
+}
+</style>
+    </body> 
+</html>

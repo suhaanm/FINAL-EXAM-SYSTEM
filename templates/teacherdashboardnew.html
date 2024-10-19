@@ -1,0 +1,22 @@
+<html>
+<head><title>Create New Exam</title>
+<link rel = "icon" href = "/static/img/logo.png" type = "image/x-icon">
+<link rel="stylesheet" href="/static/css/dist/dark.min.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+<center>
+<h1>Create New Exam</h1>
+
+<form action="/teacher/dashboard/new" method="POST">
+Exam Name:
+<input type="text" id="examname" name="examname" placeholder="Exam Name..." autocomplete="off">
+Number of Questions:
+<input type="number" max="100" min="1" id="num" name="num" placeholder="Number of Questions..." autocomplete="off">
+
+<input type="submit" value="Create">
+</form>
+
+</center>
+</body>
+</html>

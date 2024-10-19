@@ -1,0 +1,175 @@
+<html>
+<head><title>Dashboard</title>
+<link rel = "icon" href = "/static/img/logo.png" type = "image/x-icon">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="/static/css/dist/dark.min.css">
+<script src="https://cdn.jsdelivr.net/npm/clipboard@2.0.8/dist/clipboard.min.js"></script>
+</head>
+<body>
+<center>
+<h1>Teacher Dashboard - {{username}}</h1>
+<h3>Email: {{email}}</h3>
+<br>
+<a href="/logout"><button>Logout</button></a>
+<br>
+<a href="/teacher/dashboard/new"><button>Create New Test</button></a>
+<br>
+<table>
+      <thead>
+        <tr>
+          <th></th>
+          <th>Exam Name</th>
+          <th>Exam Key</th>
+          <th></th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+{% for i in range(0,createdTests|length): %}
+        <tr>
+          <td>
+            {% if accessList[i] == "True": %}
+            <img src="/static/img/online.png" height="50" width="50">
+            {% endif %}
+            {% if accessList[i] == "False": %}
+            <img src="/static/img/offline.png" width="50" height="50">
+            {% endif %}
+          </td>
+          <td><button onclick="openForm{{i+1}}()">{{nameList[i]}}</button></td>
+          <td>
+          <button class="key{{i}}" data-clipboard-text="{{createdTests[i]}}" id="key{{i}}">
+          <span class="keytext{{i}}" id="keytext{{i}}">Copy</span>
+          {{createdTests[i]}}
+          </button>
+          </td>
+          <td><a href="/teacher/dashboard/edit/{{createdTests[i]}}"><button>EDIT</button></a></td>
+          <td>
+            {% if showresponselist[i]: %}
+            <a href="/teacher/dashboard/responses/{{createdTests[i]}}"><button>RESPONSES</button></a>
+            {% endif %}
+          </td>
+          <td><details><summary>DELETE</summary><a href="/teacher/dashboard/delete/{{createdTests[i]}}"><button>DELETE</button></a></details></td>
+        </tr>
+{% endfor %}
+      </tbody>
+    </table>
+</center>
+<script>
+{% for i in range(0,createdTests|length): %}
+var btn{{i}} = document.getElementById('key{{i}}');
+var clipboard{{i}} = new ClipboardJS(btn{{i}});
+{% endfor %}
+</script>
+<style>
+{% for i in range(0,createdTests|length): %}
+.key{{i}} {
+  position: relative;
+  display: inline-block;
+}
+
+.key{{i}}:hover .keytext{{i}} {
+  visibility: visible;
+  opacity: 0.8;
+}
+
+.key{{i}} .keytext{{i}} {
+  visibility: hidden;
+  width: 70px;
+  background-color: #C4EAF8;
+  color: #000000;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  margin-left: -0.5px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+{% endfor %}
+</style>
+<style>
+.chat-popup {
+  display: none;
+  position: fixed;
+  bottom: 0;
+  right: 15px;
+  border: 3px solid #f1f1f1;
+  background-color:white;
+  z-index: 9;
+}
+</style>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.js" integrity="sha512-2rUSTSAeOO02jF6eBqENNqPs1EohenJ5j+1dgDPdXSLz9nOlrr8DJk4zW/lDy8rjhGCSonW3Gx812XJQIKZKJQ==" crossorigin="anonymous"></script>
+<script src='https://code.jquery.com/jquery.min.js'></script>
+{% for i in range(0,createdTests|length): %}
+<style>
+.chatscroll{{i+1}} {
+  background-color: white;
+  height: 215px;
+  width:125px;
+  overflow-x: hidden;
+  overflow-y: auto;
+  text-align: center;
+  padding: 20px;
+}
+</style>
+
+
+<div class="chat-popup" id="chatboxmain{{i+1}}" style="max-width: 300px;">
+  <center>
+    <h4>Chat - {{createdTests[i]}}</h4>
+    <div class="chatscroll{{i+1}}">
+      
+    </div>
+    <button type="button" class="btn cancel" onclick="closeForm{{i+1}}()" style="background-color:red;">Close</button>
+  </center>
+</div>
+
+
+<script>
+var socket = io();
+socket.on('join', (json) => {
+  if (json.key === "{{createdTests[i]}}"){
+    if (!($('.chatscroll{{i+1}}').text.includes("<br><button type=\"button\">${json.name}</button>"))) {
+  $('.chatscroll{{i+1}}').html($('.chatscroll{{i+1}}').html() +  `<br><button type="button">${json.name}</button>`);
+  $('.chatscroll{{i+1}}').scrollTop($('.chatscroll{{i+1}}')[0].scrollHeight);}}});
+
+socket.on('unjoin', (json) => {
+  if (json.key === "{{createdTests[i]}}"){
+  $('.chatscroll{{i+1}}').html($('.chatscroll{{i+1}}').text().replace(`<br><button type="button">${json.name}</button>`,""));
+  $('.chatscroll{{i+1}}').scrollTop($('.chatscroll{{i+1}}')[0].scrollHeight);}});
+</script>
+<!--<script>
+var socket = io();
+$(".message").on('keyup', 
+  function (e) {
+    if (e.key === 'Enter' || e.keyCode === 13) 
+    {sendMsg();};});$('.send').click(() => {sendMsg();
+    });
+  function sendMsg() {
+    var name = $('.name').val();
+    var message = $('.message').val();
+    if (name.length == 0 || name.length > 24 || message.length == 0 || message.length > 256) {
+      alert('Name must be between 1 and 24 characters. Message must be between 1 and 256 characters.');
+      }
+    else {
+        socket.emit('message', {'name': name, 'message':message});
+        $('.message').val('');$('.message').focus();};};socket.on('response', (json) => {$('.messages').text($('.messages').text() +  `\n<${json.name}> ${json.message}`);$('.messages').scrollTop($('.messages')[0].scrollHeight);});
+</script>-->
+<script>
+function openForm{{i+1}}() {
+  document.getElementById("chatboxmain{{i+1}}").style.display = "block";
+}
+
+function closeForm{{i+1}}() {
+  document.getElementById("chatboxmain{{i+1}}").style.display = "none";
+}
+</script>
+{% endfor %}
+
+</body>
+</html>

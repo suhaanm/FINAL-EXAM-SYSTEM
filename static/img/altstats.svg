@@ -1,0 +1,17 @@
+<svg xml:space="preserve" enable-background="new 0 0 300 240" viewBox="0 0 300 240" height="240px" width="300px" y="0px" x="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg" id="Layer_1" version="1.1" data-global-elvn="enableViewport, disableClick, full, startInvisible, responsive, 0, loop, 3000">
+<g id="graph">
+	<g>
+		<path data-elvn="expandB, in, 0, 400, backout" class="elvn-layer" fill="#B3B3B3" d="M49.271,155.145h27.61V240h-27.61V155.145z"></path>
+		<path data-elvn="expandB, in, 600, 400, backout" class="elvn-layer" fill="#B3B3B3" d="M90.691,141.385h27.586V240H90.691V141.385z"></path>
+		<path data-elvn="expandB, in, 1200, 400, backout" class="elvn-layer" fill="#B3B3B3" d="M132.868,123.803h27.586V240h-27.586V123.803z"></path>
+		<path data-elvn="expandB, in, 1800, 400, backout" class="elvn-layer" fill="#B3B3B3" d="M175.043,104.69h27.586V240h-27.586V104.69z"></path>
+		<path data-elvn="expandB, in, 2400, 400, backout" class="elvn-layer" fill="#B3B3B3" d="M216.441,94.752h27.608V240h-27.608V94.752z"></path>
+	</g>
+</g>
+<g data-elvn="maskGradB, in, 0, 4000, linear" class="elvn-layer" id="arrow">
+	<g>
+		<path fill="#4D4D4D" d="M48.686,141.906l173.139-68.488l2.009,7.738l24.661-24.113l-34.925-0.54l5.074,6.967l-173.14,68.488
+			L48.686,141.906z"></path>
+	</g>
+</g>
+</svg>

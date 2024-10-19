@@ -1,0 +1,21 @@
+<html>
+<head><title>Exam</title>
+<link rel = "icon" href = "/static/img/logo.png" type = "image/x-icon">
+<link rel="stylesheet" href="/static/css/dist/dark.min.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="{{css}}">
+</head>
+<body>
+<center>
+<h1>Begin - {% if des == "false": %} {{examkey}} {% endif %}</h1>
+
+<form action="/student/exam" method="POST">
+<input {% if des == "false": %} style="display:none;" {% endif %} type="text" id="examkey" name="examkey" placeholder="Exam Key..." value="{{ek}}" autocomplete="off">
+<input type="text" maxlength="25" minlength="4" id="name" name="name" placeholder="Name..." value="{{nm}}" autocomplete="off">
+<input type="email" minlength="4" id="email" name="email" placeholder="Email..." value="{{em}}" autocomplete="off">
+<details><summary>Begin</summary><input type="submit" value="Begin"></details>
+</form>
+{{msg}}
+</center>
+</body>
+</html>

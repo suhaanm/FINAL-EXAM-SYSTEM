@@ -1,0 +1,85 @@
+<html>
+<head><title>Responses - {{examkey}}</title>
+<link rel = "icon" href = "/static/img/logo.png" type = "image/x-icon">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="/static/css/dist/dark.min.css">
+</head>
+<body>
+<center>
+<h1><mark>Combined</mark> Responses - {{examkey}}</h1>
+<br>
+<br>
+<p>Highest Score: {{highest}}/{{m}}<br>Average: {{avg}}/{{m}}<br>Lowest Score:  {{lowest}}/{{m}}<br>Total Responses: {{res}}<br>Median Score: {{median}}/{{m}}</p>
+<br>
+<br>
+<table>
+      <thead>
+        <tr>
+          <th>Name(s)</th>
+          <th>Email</th>
+          <th>Distribution</th>
+          <th>Score(s)</th>
+          <th>Total</th>
+          <th>More</th>
+        </tr>
+      </thead>
+      <tbody>
+{% for i in range(names|length - 1,-1,-1): %}
+        <tr>
+          <td>
+            {% for j in names[i]: %}
+            {{j + "   "}} <br>
+            {% endfor %}
+          </td>
+          <td>
+            {{emails[i]}}
+          </td>
+          <td>
+            {% for j in distributions[i]: %}
+            {{j + "   "}} <br>
+            {% endfor %}
+          </td>
+          <td>
+            {% for j in scores[i]: %}
+            {{j[0]}}/{{j[1]}}  {{"   "}} <br>
+            {% endfor %}
+          </td>
+          <td>
+            {{totals[i]}}/{{m}}
+          </td>
+          <td><details>
+      <summary>More</summary>
+
+      <b>Focus Lost:</b>
+      {% for j in focusList[i]: %}
+      {{j}} time(s) {{"  "}} <br>
+      {% endfor %}
+      <br>
+
+      <b>Start(s): </b>
+      {% for j in starttimes[i]: %}
+      {{j + "    "}} <br>
+      {% endfor %}
+
+      <b>End(s): </b>
+      {% for j in endtimes[i]: %}
+      {{j + "    "}} <br>
+      {% endfor %}
+      <br>
+
+      <b>Responses: </b>
+      {% for j in responses[i]: %}
+        {% for k in range(0,j|length): %}
+          {{k+1}}: {{j[k]}} <br>
+        {% endfor %}
+         <hr>
+      {% endfor %}
+
+    </details></td>
+        </tr>
+{% endfor %}
+      </tbody>
+    </table>
+</center>
+</body>
+</html>

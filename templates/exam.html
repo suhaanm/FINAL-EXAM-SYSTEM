@@ -1,0 +1,309 @@
+<html>
+<head><title>{{examname}}</title>
+<link rel = "icon" href = "/static/img/logo.png" type = "image/x-icon">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="/static/css/dist/dark.min.css">
+<script>
+MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']]
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+<script>
+/*window.onbeforeunload = function() {
+  return "Are you sure you want to navigate away?";
+}*/
+</script>
+<script type="text/javascript" id="MathJax-script" async
+  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js">
+</script>
+<link rel="stylesheet" href="/static/notifs/notifications.css">
+<script src="/static/notifs/notifications.js"></script>
+<script src="/static/js/main.js"></script>
+<link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+<script src='https://code.jquery.com/jquery.min.js'></script>
+<script>
+$(document).ready(function() {
+   $("a[href^=http]").each(function(){
+         $(this).attr({
+            target: "insitebrowser",
+            title: "InSite Browser",
+            onclick: "openBrowser();"
+            //onclick: "openBrowser("+this.href+");"
+         });
+   })
+});
+</script>
+<div id="browsermodal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close">&times;</span>
+      <h3>InSite Browser</h3>
+    </div>
+    <div class="modal-body">
+      <iframe src="/" name="insitebrowser" style="border:none; height:70%; border:none; margin:0; padding:0; overflow:hidden; z-index:999999;" width="100%" id="insitebrowser"></iframe>
+    </div>
+    <div class="modal-footer">
+    </div>
+  </div>
+</div>
+<center>
+<h1 id="examnametitle">{{examname}}</h1>
+<h3 id="examteacher">{{teacher}}</h3>
+<h3 id="examquestionsnum">{{numquestions}} Questions</h3>
+<br>
+
+<form id="exam" action="/student/exam/{{examkey}}" method="POST">
+<fieldset style="font-family: Verdana;"><legend>Information</legend>{{message|safe}}</fieldset><br>
+
+<input readonly type="text" id="starttime" name="starttime" value="{{starttime}}" autocomplete="off" style="display:none;" onkeydown="return event.key != 'Enter';">
+<input readonly type="text" id="netstatus" name="netstatus" value="" style="display:none;" onkeydown="return event.key != 'Enter';">
+
+<input readonly type="number" id="focuscheck" name="focuscheck" value="0" style="display:none;" onkeydown="return event.key != 'Enter';">
+
+<fieldset><legend>General</legend><input readonly type="text" id="name" name="name" placeholder="Name..." value="{{name}}" autocomplete="off" onkeydown="return event.key != 'Enter';"><input readonly type="email" id="email" name="email" placeholder="Email..." autocomplete="off" value="{{email}}" onkeydown="return event.key != 'Enter';"></fieldset>
+<div id="questionbank">
+{% for i in range(0,qList|length): %}
+<fieldset>
+<legend>Question {{i+1}}</legend>
+<div class="uncenter" style="font-family: Verdana;">
+{{qList[i]|safe}}
+<br><br>
+</div>
+<input type="text" id="q{{i+1}}" name="q{{i+1}}" placeholder="Answer..." autocomplete="off" onkeydown="return event.key != 'Enter';">
+</fieldset>
+{% endfor %}
+</div>
+<p id="offlineinstructions" class="offlineinstructions"></p>
+<input type="submit" value="Submit" id="submitbutton">
+</form>
+</center>
+
+<style>
+.offlineinstructions {
+  background-color: rgb(0,0,0,0)
+}
+.offlineinstructions:hover {
+  background-color: rgb(0,0,0,0)
+}
+</style>
+
+{% if des: %}
+<div class="icon-bar">
+  <p id="timer" class="timerfix"></p> 
+</div>
+<script>
+var isSubmitted = false;
+
+document.getElementById("exam").addEventListener("submit", submitted);
+
+function submitted() {
+  isSubmitted = true;
+}
+
+var countDownDate = new Date("{{duetime}}").getTime();
+
+var x = setInterval(function() {
+
+  var now = new Date().getTime();
+
+  var distance = countDownDate - now;
+
+  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+  if (days < 0) {
+    clearInterval(x);
+    document.getElementById("timer").innerHTML = "-";  
+    //document.forms[0].submit()
+    if (!(isSubmitted)){
+      if (navigator.onLine)
+        {document.getElementById('exam').submit();}
+      else {
+        {% for i in range(0,qList|length): %}
+        document.getElementById("q{{i+1}}").readOnly = true;
+        {% endfor %}
+        document.getElementById("offlineinstructions").innerHTML = "Your test time ended and since you are offline, the test was unable to submit! Upon restoring the connection, click the <kbd>Submit</kbd> button the save the answers onto the system and end the test."
+        window.createNotification({
+			  closeOnClick: true,
+			  displayCloseButton: true,
+			  positionClass: 'nfc-top-right',
+			  showDuration: 60000,
+			  theme: "information"
+		    })({
+			    title: "Submission",
+			    message: "Your test time ended and since you are offline, the test was unable to submit! Upon restoring the connection, click the Submit button the save the answers onto the system and end the test."
+		    });
+        document.getElementById('questionbank').style.visibility = 'hidden';
+
+        window.addEventListener('online', () => document.getElementById('exam').submit());
+      }
+    }
+  }
+
+  else {
+        document.getElementById("timer").innerHTML = days + "d " + hours + "h "
+  + minutes + "m " + seconds + "s ";      
+  }
+
+  if (days === 0 && hours === 0 && seconds === 0 && minutes === 5)
+  {
+		window.createNotification({
+			closeOnClick: true,
+			displayCloseButton: true,
+			positionClass: 'nfc-top-right',
+			showDuration: 10000,
+			theme: "information"
+		})({
+			title: "5 Minutes Remaining",
+			message: "5 minutes are left until the end of the exam!"
+		});
+  }
+
+  if (days === 0 && hours === 0 && seconds === 0 && minutes === 1)
+  {
+		window.createNotification({
+			closeOnClick: true,
+			displayCloseButton: true,
+			positionClass: 'nfc-top-right',
+			showDuration: 5000,
+			theme: "information"
+		})({
+			title: "A Minute Left!",
+			message: "1 minute is left until the end of the exam!"
+		});
+  }
+
+}, 1000);
+</script>
+{% endif %}
+<style>
+.uncenter {
+  text-align: left;
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.0.5/socket.io.js" integrity="sha512-2rUSTSAeOO02jF6eBqENNqPs1EohenJ5j+1dgDPdXSLz9nOlrr8DJk4zW/lDy8rjhGCSonW3Gx812XJQIKZKJQ==" crossorigin="anonymous"></script>
+<script>
+var socket = io();
+
+
+
+socket.on('connect', function() {
+		socket.emit('join',{name:'{{name}}',key:'{{examkey}}'});
+	});
+
+socket.on('disconnect', function () {
+        socket.emit('unjoin', {name:'{{name}}',key:'{{examkey}}'});
+    });
+</script>''
+
+<style>
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 10%; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #C4E9F3;
+  color: white;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #C4E9F3;
+  color: white;
+}
+</style>
+
+
+
+<script>
+// Get the modal
+var modal = document.getElementById("browsermodal");
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks the button, open the modal 
+/*function openBrowser(link) {
+  modal.style.display = "block";
+  $("#insitebrowser").attr("src", link);
+}*/
+function openBrowser() {
+  modal.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() {
+  modal.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal) {
+    modal.style.display = "none";
+  }
+}
+</script>
+</body>
+</html>

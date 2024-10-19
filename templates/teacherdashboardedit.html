@@ -1,0 +1,541 @@
+<html>
+<head><title>Edit Exam</title>
+<link rel = "icon" href = "/static/img/logo.png" type = "image/x-icon">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<link rel="stylesheet" href="/static/css/dist/dark.min.css">
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">-->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://use.fontawesome.com/598c8aa2ed.js"></script>
+</head>
+<body>
+<center>
+<h1 style="display: inline-block;">Edit Exam - {{examkey}} &nbsp;</h1>
+<a href="/teacher/dashboard/clone/{{examkey}}"><button style="background-color: #C4E9F3; color: black;"><img src="/static/img/clone.png" height="20" width="20" style="border:white;">Clone</button></a>
+<form action="/teacher/dashboard/edit/{{examkey}}" method="POST" id="editexam">
+{% if des: %}
+<label class="switch">
+  <input type="checkbox" id="access" name="access" value="OPEN" checked>
+  <span class="slider round"></span>
+</label>
+{% endif %}
+{% if des == False: %}
+<label class="switch">
+  <input type="checkbox" value="OPEN" id="access" name="access" value="OPEN">
+  <span class="slider round"></span>
+</label>
+{% endif %}
+<details>
+<summary>General</summary>
+Exam Name:
+<input type="text" id="examname" name="examname" placeholder="Exam Name..." value="{{examname}}" autocomplete="off">
+Teacher Name:
+<input type="text" id="teacher" name="teacher" placeholder="Teacher..." value="{{teacher}}" autocomplete="off">
+Time (minutes):
+<input type="number" id="mintime" name="mintime" placeholder="Time (minutes)..." value="{{mintime}}" autocomplete="off" min="0">
+Message:
+<center>
+           <div class="encloser">
+            <center><div class="toolbar">
+                <a href="javascript:void();" data-command='undo' data-toggle="tooltip" data-placement="bottom"><span class="des">Undo</span><i class='fa fa-undo'></i></a>
+                <a href="javascript:void();" data-command='redo' data-toggle="tooltip" data-placement="bottom"><span class="des">Redo</span><i class='fa fa-repeat'></i></a>
+                <a href="javascript:void();" data-command='bold' data-toggle="tooltip" data-placement="bottom"><span class="des">Bold</span><i class='fa fa-bold'></i></a>
+                <a href="javascript:void();" data-command='italic' data-toggle="tooltip" data-placement="bottom"><span class="des">Italic</span><i class='fa fa-italic'></i></a>
+                <a href="javascript:void();" data-command='underline' data-toggle="tooltip" data-placement="bottom"><span class="des">Underline</span><i class='fa fa-underline'></i></a>
+                <a href="javascript:void();" data-command='strikeThrough' data-toggle="tooltip" data-placement="bottom"><span class="des">Strike Through</span><i class='fa fa-strikethrough'></i></a>
+                <a href="javascript:void();" data-command='justifyLeft' data-toggle="tooltip" data-placement="bottom"><span class="des">Justify Left</span><i class='fa fa-align-left'></i></a>
+                <a href="javascript:void();" data-command='justifyCenter' data-toggle="tooltip" data-placement="bottom"><span class="des">Justify Center</span><i class='fa fa-align-center'></i></a>
+                <a href="javascript:void();" data-command='justifyRight' data-toggle="tooltip" data-placement="bottom"><span class="des">Justify Right</span><i class='fa fa-align-right'></i></a>
+                <a href="javascript:void();" data-command='justifyFull' data-toggle="tooltip" data-placement="bottom"><span class="des">Justify Full</span><i class='fa fa-align-justify'></i></a>
+                <a href="javascript:void();" data-command='indent' data-toggle="tooltip" data-placement="bottom"><span class="des">Indent</span><i class='fa fa-indent'></i></a>
+                <a href="javascript:void();" data-command='outdent' data-toggle="tooltip" data-placement="bottom"><span class="des">Outdent</span><i class='fa fa-outdent'></i></a>
+                <a href="javascript:void();" data-command='insertUnorderedList' data-toggle="tooltip" data-placement="bottom"><span class="des">Insert Unordered List</span><i class='fa fa-list-ul'></i></a>
+                <a href="javascript:void();" data-command='insertOrderedList' data-toggle="tooltip" data-placement="bottom"><span class="des">Insert Ordered List</span><i class='fa fa-list-ol'></i></a>
+                <a href="javascript:void();" data-command='h1' data-toggle="tooltip" data-placement="bottom"><span class="des">Heading 1</span>h1</a>
+                <a href="javascript:void();" data-command='h2' data-toggle="tooltip" data-placement="bottom"><span class="des">Heading 2</span>h2</a>
+                <a href="javascript:void();" data-command='createlink' data-toggle="tooltip" data-placement="bottom"><span class="des">Create Link</span><i class='fa fa-link'></i></a>
+                <a href="javascript:void();" data-command='unlink' data-toggle="tooltip" data-placement="bottom"><span class="des">Unlink</span><i class='fa fa-unlink'></i></a>
+                <a href="javascript:void();" data-command='insertimage' data-toggle="tooltip" data-placement="bottom"><span class="des">Insert Image</span><i class='fa fa-image'></i></a>
+                <a href="javascript:void();" data-command='p' data-toggle="tooltip" data-placement="bottom"><span class="des">Paragraph</span><i class='fa fa-paragraph'></i></a>
+                <a href="javascript:void();" data-command='subscript' data-toggle="tooltip" data-placement="bottom"><span class="des">Subscript</span><i class='fa fa-subscript'></i></a>
+                <a href="javascript:void();" data-command='superscript' data-toggle="tooltip" data-placement="bottom"><span class="des">Superscript</span><i class='fa fa-superscript'></i></a>
+            </div></center>
+            <hr class="hrrule">
+            <div is="#editor">
+                <div id="msgrich" class="editor" placeholder="Message ..." contenteditable="true">{{message|safe}}</div>
+            </div>
+</div>
+</center>
+<textarea id="message" name="message" placeholder="Message" style="display:none;">{{message}}</textarea>
+</details>
+</center>
+{% for i in range(0,qList|length): %}
+<center>
+    <details>
+      <summary>Question {{i+1}}</summary>
+<center>Question {{i+1}}:</center>
+<center>
+           <div class="encloser">
+            <center><div class="toolbar">
+                <a href="javascript:void();" data-command='undo' data-toggle="tooltip" data-placement="bottom"><span class="des">Undo</span><i class='fa fa-undo'></i></a>
+                <a href="javascript:void();" data-command='redo' data-toggle="tooltip" data-placement="bottom"><span class="des">Redo</span><i class='fa fa-repeat'></i></a>
+                <a href="javascript:void();" data-command='bold' data-toggle="tooltip" data-placement="bottom"><span class="des">Bold</span><i class='fa fa-bold'></i></a>
+                <a href="javascript:void();" data-command='italic' data-toggle="tooltip" data-placement="bottom"><span class="des">Italic</span><i class='fa fa-italic'></i></a>
+                <a href="javascript:void();" data-command='underline' data-toggle="tooltip" data-placement="bottom"><span class="des">Underline</span><i class='fa fa-underline'></i></a>
+                <a href="javascript:void();" data-command='strikeThrough' data-toggle="tooltip" data-placement="bottom"><span class="des">Strike Through</span><i class='fa fa-strikethrough'></i></a>
+                <a href="javascript:void();" data-command='justifyLeft' data-toggle="tooltip" data-placement="bottom"><span class="des">Justify Left</span><i class='fa fa-align-left'></i></a>
+                <a href="javascript:void();" data-command='justifyCenter' data-toggle="tooltip" data-placement="bottom"><span class="des">Justify Center</span><i class='fa fa-align-center'></i></a>
+                <a href="javascript:void();" data-command='justifyRight' data-toggle="tooltip" data-placement="bottom"><span class="des">Justify Right</span><i class='fa fa-align-right'></i></a>
+                <a href="javascript:void();" data-command='justifyFull' data-toggle="tooltip" data-placement="bottom"><span class="des">Justify Full</span><i class='fa fa-align-justify'></i></a>
+                <a href="javascript:void();" data-command='indent' data-toggle="tooltip" data-placement="bottom"><span class="des">Indent</span><i class='fa fa-indent'></i></a>
+                <a href="javascript:void();" data-command='outdent' data-toggle="tooltip" data-placement="bottom"><span class="des">Outdent</span><i class='fa fa-outdent'></i></a>
+                <a href="javascript:void();" data-command='insertUnorderedList' data-toggle="tooltip" data-placement="bottom"><span class="des">Insert Unordered List</span><i class='fa fa-list-ul'></i></a>
+                <a href="javascript:void();" data-command='insertOrderedList' data-toggle="tooltip" data-placement="bottom"><span class="des">Insert Ordered List</span><i class='fa fa-list-ol'></i></a>
+                <a href="javascript:void();" data-command='h1' data-toggle="tooltip" data-placement="bottom"><span class="des">Heading 1</span>h1</a>
+                <a href="javascript:void();" data-command='h2' data-toggle="tooltip" data-placement="bottom"><span class="des">Heading 2</span>h2</a>
+                <a href="javascript:void();" data-command='createlink' data-toggle="tooltip" data-placement="bottom"><span class="des">Create Link</span><i class='fa fa-link'></i></a>
+                <a href="javascript:void();" data-command='unlink' data-toggle="tooltip" data-placement="bottom"><span class="des">Unlink</span><i class='fa fa-unlink'></i></a>
+                <a href="javascript:void();" data-command='insertimage' data-toggle="tooltip" data-placement="bottom"><span class="des">Insert Image</span><i class='fa fa-image'></i></a>
+                <a href="javascript:void();" data-command='p' data-toggle="tooltip" data-placement="bottom"><span class="des">Paragraph</span><i class='fa fa-paragraph'></i></a>
+                <a href="javascript:void();" data-command='subscript' data-toggle="tooltip" data-placement="bottom"><span class="des">Subscript</span><i class='fa fa-subscript'></i></a>
+                <a href="javascript:void();" data-command='superscript' data-toggle="tooltip" data-placement="bottom"><span class="des">Superscript</span><i class='fa fa-superscript'></i></a>
+            </div></center>
+            <hr class="hrrule">
+            <div is="#editor">
+                <div id="description{{i+1}}" class="editor" placeholder="Question ..." contenteditable="true">{{qList[i]|safe}}</div>
+            </div>
+</div>
+</center>
+<center>
+<!-- Trigger/Open The Modal -->
+<button type="button" id="vsrcbtn{{i+1}}">View Source</button><br>
+<textarea id="q{{i+1}}" name="q{{i+1}}" style="display:none;">{{qList[i]}}</textarea>
+Answer {{i+1}}: 
+<input type="text" id="a{{i+1}}" name="a{{i+1}}" value="{{aList[i]}}" autocomplete="off">
+Points for {{i+1}}:
+<input type="number" min="0" id="p{{i+1}}" name="p{{i+1}}" value="{{pList[i]}}" autocomplete="off">
+</details>
+
+<!-- The Modal -->
+<div id="vsrcdiv{{i+1}}" class="modal">
+
+  <!-- Modal content -->
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close" id="vsrcclose{{i+1}}">&times;</span>
+      <h2>Source for Question {{i+1}}</h2>
+    </div>
+    <div class="modal-body">
+      <textarea id="vsrctxt{{i+1}}">{{qList[i]}}</textarea>
+    </div>
+    <div class="modal-footer">
+    </div>
+  </div>
+
+</div>
+</center>
+{% endfor %}
+</center>
+<center>
+<input type="submit" value="Save Changes">
+</form>
+
+</center>
+<style>
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+}
+
+.switch input { 
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #ccc;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: .4s;
+  transition: .4s;
+}
+
+input:checked + .slider {
+  background-color: #8CEC8A;
+}
+
+input:focus + .slider {
+  box-shadow: 0 0 1px #8CEC8A;
+}
+
+input:checked + .slider:before {
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+  border-radius: 34px;
+}
+
+.slider.round:before {
+  border-radius: 50%;
+}
+</style>
+<style>
+.form-control {
+    font-size: 20px;
+    outline: none;
+    border: none !important;
+    -webkit-box-shadow: none !important;
+    -moz-box-shadow: none !important;
+    box-shadow: none !important;
+}
+
+a {
+  cursor: pointer;
+}
+
+.toolbar a{
+    font-size: 18px;
+    text-align: center;
+    border: 1px solid #AAA;
+    background: #FFF;
+    font-family: 'Candal';
+    border-radius: 1px;
+    color: black;
+    padding: 5px;
+    width: 2em;
+    margin: -2px;
+    margin-top: 10px;
+    display: inline-block;
+    text-decoration: none;
+    box-shadow: 0px 1px 0px #CCC;
+    position: relative;
+    display: inline-block;
+}
+
+.toolbar a:hover {
+  background: #f2f2f2;
+  border-color: #8c8c8c;
+}
+
+.toolbar a:hover .des {
+  visibility: visible;
+  opacity: 0.8;
+}
+
+.toolbar a .des {
+  visibility: hidden;
+  font-style: Verdana;
+  width: 90px;
+  background-color: #C4EAF8;
+  color: #000000;
+  text-align: center;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 100%;
+  left: -50%;
+  margin-left: -0.5px;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+a[data-command='redo'],
+a[data-command='strikeThrough'],
+a[data-command='justifyFull'],
+a[data-command='insertOrderedList'],
+a[data-command='outdent'],
+a[data-command='p'],a[data-command='h2'],
+a[data-command='superscript'] {
+  margin-right: 5px;
+  border-radius: 0 3px 3px 0;
+}
+
+a[data-command='undo'],
+.fore-wrapper,
+a[data-command='justifyLeft'],
+a[data-command='insertUnorderedList'],
+a[data-command='indent'],
+a[data-command='createlink'],
+a[data-command='h1'],
+a[data-command='subscript'] {
+  border-radius: 3px 0 0 3px;
+}
+
+.editor{
+  outline: none;
+  border: none;
+  text-align: left;
+  font-family: Verdana;
+}
+
+.hrrule {
+  border: 2px solid #E9EAEC;
+  border-radius: 3px;
+}
+
+.encloser {
+  margin: 10px;
+  padding: 5px;
+  border: 2px solid #E9EAEC;
+  border-radius: 5px;
+}
+
+[contenteditable=true]:empty:before {
+  content: attr(placeholder);
+  display: block; /* For Firefox */
+  
+}
+{% for i in range(0,qList|length): %}
+#description{{i+1}}{
+  font-size:16px;
+}
+{% endfor %}
+</style>
+<script>
+$(document).ready(function() {
+
+    // Tooltip
+    $('[data-toggle="tooltip"]').tooltip(); 
+
+    // WYSIWYG toolbar
+
+    $('.toolbar a').click(function(e) {
+
+        var command = $(this).data('command');
+   
+        if (command == 'h1' || command == 'h2' || command == 'p') {
+            document.execCommand('formatBlock', false, command);
+            {% for i in range(0,qList|length): %}
+            var description{{i+1}} = document.querySelector('#description{{i+1}}');
+            document.getElementById('q{{i+1}}').value = description{{i+1}}.innerHTML;
+            document.getElementById('vsrctxt{{i+1}}').value = description{{i+1}}.innerHTML;
+            {% endfor %}
+            var msg = document.querySelector('#msgrich');
+            document.getElementById('message').value = msg.innerHTML;
+        }
+        
+        if (command == 'forecolor' || command == 'backcolor') {
+            document.execCommand($(this).data('command'), false, $(this).data('value'));
+            {% for i in range(0,qList|length): %}
+            var description{{i+1}} = document.querySelector('#description{{i+1}}');
+            document.getElementById('q{{i+1}}').value = description{{i+1}}.innerHTML;
+            document.getElementById('vsrctxt{{i+1}}').value = description{{i+1}}.innerHTML;
+            {% endfor %}
+            var msg = document.querySelector('#msgrich');
+            document.getElementById('message').value = msg.innerHTML;
+        }
+        
+        if (command == 'createlink' || command == 'insertimage') {
+            url = prompt('Enter the link here: ','https:\/\/');
+            document.execCommand($(this).data('command'), false, url);
+            {% for i in range(0,qList|length): %}
+            var description{{i+1}} = document.querySelector('#description{{i+1}}');
+            document.getElementById('q{{i+1}}').value = description{{i+1}}.innerHTML;
+            document.getElementById('vsrctxt{{i+1}}').value = description{{i+1}}.innerHTML;
+            {% endfor %}
+            var msg = document.querySelector('#msgrich');
+            document.getElementById('message').value = msg.innerHTML;
+        }
+        
+        else document.execCommand($(this).data('command'), false, null);
+            {% for i in range(0,qList|length): %}
+            var description{{i+1}} = document.querySelector('#description{{i+1}}');
+            document.getElementById('q{{i+1}}').value = description{{i+1}}.innerHTML;
+            document.getElementById('vsrctxt{{i+1}}').value = description{{i+1}}.innerHTML;
+            {% endfor %}
+            var msg = document.querySelector('#msgrich');
+            document.getElementById('message').value = msg.innerHTML;
+    });
+
+
+
+// AUTO SAVE
+
+(function() {
+
+    try {
+
+        (window.localStorage.getItem) // will throw in Firefox under some settings
+    } catch (e) {
+
+        return; // quit because dom.storage.enabled is false
+    }
+{% for i in range(0,qList|length): %}
+    var description{{i+1}} = document.querySelector('#description{{i+1}}');
+
+    // place content from previous edit
+    if (!description{{i+1}}.innerHTML) {
+
+    }
+
+    document.querySelector('#description{{i+1}}').addEventListener('keyup', function() {
+
+        document.getElementById('q{{i+1}}').value = description{{i+1}}.innerHTML;
+        document.getElementById('vsrctxt{{i+1}}').value = description{{i+1}}.innerHTML;
+    }, false);
+
+    document.getElementById("vsrctxt{{i+1}}").addEventListener("keyup", function () {
+        description{{i+1}}.innerHTML = document.getElementById('vsrctxt{{i+1}}').value;
+        document.getElementById('q{{i+1}}').value = document.getElementById('vsrctxt{{i+1}}').value;
+});
+{% endfor %}
+    var msg = document.querySelector('#msgrich');
+
+    // place content from previous edit
+    if (!msg.innerHTML) {
+
+    }
+
+    document.querySelector('#msgrich').addEventListener('keyup', function() {
+
+        document.getElementById('message').value = msg.innerHTML;
+
+
+    }, false);
+
+})();
+
+});
+
+/*var isSubmitted = false;
+
+document.getElementById("editexam").addEventListener("submit", submitted);
+
+function submitted() {
+  isSubmitted = true;
+}
+
+window.onbeforeunload = function() {
+  if isSubmitted == false {
+    return "Are you sure you want to navigate away?";
+  }
+}*/
+</script>
+
+<script>
+{% for i in range(0,qList|length): %}
+// Get the modal
+var modal{{i+1}} = document.getElementById("vsrcdiv{{i+1}}");
+
+// Get the button that opens the modal
+var btn{{i+1}} = document.getElementById("vsrcbtn{{i+1}}");
+
+// Get the <span> element that closes the modal
+var span{{i+1}} = document.getElementById("vsrcclose{{i+1}}");
+
+// When the user clicks the button, open the modal 
+btn{{i+1}}.onclick = function() {
+  modal{{i+1}}.style.display = "block";
+}
+
+// When the user clicks on <span> (x), close the modal
+span{{i+1}}.onclick = function() {
+  modal{{i+1}}.style.display = "none";
+}
+
+// When the user clicks anywhere outside of the modal, close it
+window.onclick = function(event) {
+  if (event.target == modal{{i+1}}) {
+    modal{{i+1}}.style.display = "none";
+  }
+}
+{% endfor %}
+</script>
+
+<style>
+/* The Modal (background) */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+}
+
+/* Modal Content */
+.modal-content {
+  position: relative;
+  background-color: #fefefe;
+  margin: auto;
+  padding: 0;
+  border: 1px solid #888;
+  width: 80%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+  background-color: #C4E9F3;
+  color: black;
+}
+
+.modal-body {padding: 2px 16px;}
+
+.modal-footer {
+  padding: 2px 16px;
+  background-color: #C4E9F3;
+  color: black;
+}
+</style>
+</body>
+</html>

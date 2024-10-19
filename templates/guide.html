@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+    <title>Guide</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel = "icon" href = "/static/img/logo.png" type = "image/x-icon">
+    <!--<link rel="stylesheet" href="/static/css/dist/dark.min.css">-->
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			
+:root {
+  --color-primary: #0c1440;
+  --color-secondary: #0067f4;
+  --color-navy: #0c1440;
+  --color-blue: #0067f4;
+  --color-orange: #F28729;
+  --color-red: #E84855;
+  --color-yellow: #F7C660;
+  --color-green: #4da422;
+  --color-purple: #9c3ce9;
+  
+  --color-gray-10: #f4f6f7;
+  --color-gray-50: #ebebeb;
+  --color-gray-100: #d7d7d7;
+  --color-gray-200: #c2c3c4;
+  --color-gray-300: #aeafb0;
+  --color-gray-400: #9a9b9c;
+  
+  --color-blue-10: #e6f0fe;
+  --color-blue-50: #cce1fd;
+  --color-blue-100: #99c2fa;
+  --color-blue-200: #66a3f8;
+  --color-blue-300: #3285f6;
+  --color-blue-500: #0052c3;
+  --color-blue-600: #003d92;
+  --color-blue-700: #002961;
+  
+  --color-secondary-10: #e6f0fe;
+  --color-secondary-50: #cce1fd;
+  --color-secondary-100: #99c2fa;
+  --color-secondary-200: #66a3f8;
+  --color-secondary-300: #3285f6;
+  --color-secondary-500: #0052c3;
+  --color-secondary-600: #003d92;
+  --color-secondary-700: #002961;
+  
+  --color-red-10: #fdedee;
+  --color-red-50: #fadadd;
+  --color-red-100: #f6b6bb;
+  --color-red-200: #f19199;
+  --color-red-300: #ed6d77;
+  
+  --color-light-gray: #F4F6F7;
+  --color-light-blue: #D8E6F2;
+  
+  
+  /* text colors for light background */
+  --text-dark-high: #212121;
+  --text-dark-medium: #666666;
+  --text-dark-disabled: #9E9E9E;
+
+  /* text colors for dark background */
+  --text-white-high: rgba(255,255,255,1);
+  --text-white-medium: rgba(255,255,255,0.6);
+  --text-white-disabled: rgba(255,255,255,0.38);
+}
+
+body {
+	color: var(--text-dark-high);
+	font-family: system-ui, sans-serif;
+	font-size: 16px;
+	font-weight: 300;
+	margin:0;
+	padding:0;
+	text-rendering: optimizelegibility;
+	width: 100%;
+}
+
+main {
+	box-sizing: border-box;
+	line-height: 1.25;
+	margin: 0 auto 80px;
+	max-width: 712px;
+	padding: 0 16px;
+}
+h1,h2,h3,h4,h5,h6 {
+	margin-block-start: 2em;
+	margin-block-end: 1em;
+}
+/* title */
+h1 {
+  font-size: 2em;
+  font-weight: 500;
+  padding-bottom: 0.5em;
+  border-bottom: 1px solid var(--text-dark-high);
+}
+h2 {
+	font-size: 1.5em;
+	font-weight: 500;
+}
+h3 {
+	font-size: 1.17em;
+	font-weight: 500;
+}
+h4 {
+	font-size: 1em;
+	font-weight: 500;
+}
+h5 {
+	font-size: 0.83em;
+	font-weight: 500;
+}
+h6 {
+	font-size: 0.67em;
+	font-weight: 500;
+}
+
+ul, ol {
+	padding-inline-start: 18px;
+}
+
+ul > ul, ul > ol, ol > ol, ol > ul {
+	padding-inline-start: 40px;
+}
+blockquote > p {
+	margin-block-start: 0;
+	margin-block-end: 0;
+}
+
+a {
+	color: var(--color-blue);
+}
+
+p {
+	hyphens: auto;
+	line-height: 1.5;
+	margin-block-start: 1.5em;
+}
+li {
+	margin: 8px 0;
+}
+strong {
+	font-weight: 500;
+}
+
+blockquote {
+	background: var(--color-gray-10);
+	border-left: 8px solid var(--text-dark-high);
+	margin: 24px 0;
+	padding: 16px 24px 16px;
+}
+
+hr {
+	border:none;
+	border-top:solid 1px var(--color-gray-400);
+	margin-top: 2rem;
+	margin-bottom: 2rem;
+}
+
+pre {
+	background-color: var(--text-dark-high);
+	border-radius: 8px;
+	color: #fff;
+	overflow: auto;
+	padding: 16px 24px;
+	tab-size: 2em;
+}
+
+code {
+	background-color: var(--color-secondary-10);
+	border-radius: 4px;
+	color: var(--color-secondary);
+	font-family: monospace;
+	line-height: 20px;
+	margin: 0;
+	padding: 2px 6px;
+	word-wrap: break-word;
+}
+
+pre > code {
+	background: transparent;
+	color: #fff;
+	line-height: 1.5;
+	padding:0;
+}
+
+table {
+	border-collapse: collapse;
+	margin-top: 32px;
+	margin-bottom: 32px;
+	padding: 0;
+	width: 100%;
+}
+table tr {
+	border-top: 1px solid var(--color-gray-100);
+	margin: 0;
+	padding: 0;
+}
+table thead tr {
+	border-bottom: 1px solid var(--text-dark-high);
+}
+
+table tr th {
+	font-weight: 500;
+	margin: 0;
+	padding: 8px 16px;
+	text-align: left;
+}
+table tbody tr:nth-child(odd) {
+	background-color: var(--color-gray-10);
+}
+table tbody tr:last-child {
+	border-bottom: 1px solid var(--color-gray-100);
+}
+table tr td {
+	margin: 0;
+	padding: 8px 16px;
+	text-align: left;
+}
+
+img {
+	display: block;
+	margin: 2rem 0;
+	max-width: 100%;
+}
+
+button {
+	border: 1px solid var(--color-secondary);
+	background-color: var(--color-secondary);
+	color: #fff;
+	font-size: 16px;
+	font-weight: 500;
+	padding: 16px;
+	border-radius: 0;
+}
+		</style>
+	</head>
+	<body>
+		<main><h1>Guide</h1>
+
+<h2>Features</h2>
+<strong>Secure: </strong> All information is encrypted and stored and access to data is only given to the data owner. <br><br>
+<strong>Controlled Environment: </strong> All testing is conducted in a controlled environment, wherein our system tracks the test page losing focus, and has an autosubmit feature for when the time limit runs out. <br><br>
+<strong>LaTeX Support: </strong> LaTeX is autorendered by the system. <br><br>
+<strong>HTML/CSS Support: </strong> Tests can easily contain images, code segments and several other HTML elements. Tests can also be custom styled with personal CSS. <br><br>
+<strong>Easy Integration: </strong> Easy integration into personal sites through a code segment system generated. It also includes custom CSS.  <br><br>
+<strong>Autograding: </strong> All tests are autograded by our system which update even after the tests are over and account for changes in the point system and answer key. <br><br>
+<strong>Combine Responses: </strong> Responses for 2 or 3 tests can be combined to get a consolidated leaderboard, score range, statistics and other data.<br><br>
+<strong>Detection: </strong> The system can detect when a user from the internet address is accessing the test again, and secures the test from multiple attempts from the same internet address. <br><br>
+<strong>Exam access: </strong> Access to exams can be given or taken with a simple toggle button.<br><br>
+
+<h2>Teacher</h2>
+<h3>Register/Login</h3>
+If you are new to this system, you might have to create an account using your email id. You'll be asked to create a username and a password for your account. Upon registering, you might recieve a verification email (not necessarily, but if you do recieve one, you'll be notified on the site about it). <br>
+If you're a returning user, you must login through the login button and you'll be asked for your username and password.
+<h3>Creating a test</h3>
+To create a test, once you're logged in to your account, click the <code>Create New Test</code> button on your dashboard. You'll be directed to a page wherein you'll be asked to provide the exam name (dont worry, this can be changed later) and the number of questions (this can't be changed so be extra careful). <br> Upon creating the test, you'll be able to edit the test. The toggle button will allow you to provide and remove access to the test. The fields below contain other information which needs to be filled out (some of which are autofilled, but you can change them). <br><br>
+<strong style="color:red;">Important: </strong> If you want the test to remain untimed, set the time field to a <code>0</code>. <br> <br>
+You can also set a message to display to the testtakers by typing it in the message field.
+
+<H3>Viewing Responses</H3>
+Once the test recieves a submission, the dashboard will show a responses button next to the other buttons for the particular test. When you click on <code>Responses</code>, a page with the test statistics along with all the responses in descending order of the scores will show up. Upon clicking the more button for each response, more detailed information for the response will show such as the number of times the test loses focus, the time the test started, the time the test ended and the individual responses to each question.
+<br><br>
+<strong style="color:red;">Important: </strong> All times are in UTC.<br> 
+<h3>Statistics (Charts/Graphs)</h3>
+Upon the test recieving a submission, the responses page will open up. A button on the responses page links you to a new oage with the charts and graphs for the test. This contains scores, question difficulty and a question wise analysis.
+
+<h3>Combining Test Responses</h3>
+You can combine several test responses (if you're the creator of all of those) in the following ways:
+<h5>2 tests</h5>
+<blockquote><p>https://exam.wizdeveloper.com/teacher/dashboard/responses/combine/first_key/second_key</p></blockquote>
+<h5>3 tests</h5>
+<blockquote>https://exam.wizdeveloper.com/teacher/dashboard/responses/combine/first_key/second_key/third_key</blockquote>
+<h3>Custom Integration</h3>
+For integraitng our system into your site, visit <a href="/teacher/dashboard/generate/custom">here</a>. If you want to retain our css, keep the input field blank, however if you want to use another css module, paste the entire external link for the css in the input field. <br> Upon generating, a block of code will show up, which you will have to copy to your sites page for the integration to take place.
+
+<h2>Student</h2>
+<h3>Beggining the exam</h3>
+First head off <A href="/">here</a> and click the <code>Student</code> button, or you can directly access it by going <a href="/student/exam">here</a>. <br>
+Enter the exam key provided by your teacher/coordinator, your name and a valid email address that belongs to you. Then click the begin button and the test will begin.
+<h3>The Exam</h3>
+When the exam begins, you'll probably see the title of the exam at the top followed by your teachers name along with the number of questions. You might also see some instructions in a box below. After that, you'll see your email and name prefilled out for you in a text field, and the exam questions will begin below. Under each question, there will be a text box for you to attempt your answer to it. <br> If your test is timed, you'll see a blue box fixed at the bottom right of your screen displaying the time left to submit. Remember, that if time runs out, the test will autosubmit and all your responses will be saved. <br> Your test will also be tracked if it is on focus. <br>
+If you're done before time, click on the <code>Submit</code> button to save your answers and end the test.
+
+<h3>Internet</h3>
+If at any point in time you become offline, you are notfied. Upon the connection resuming, you will be notified that you are back online. <br> If at the time of submission (when the test is scheduled to end), if you are offline, your responses will be recorded on your system and you won't be able to edit them. When the connection resumes the test should automatically save your responses onto our system and your test will end properly. After one minute passes from the time you were back online, and it doesn't automatically save the work and the test, you might have to press the <code>Submit</code> button to save the responses onto the system. 
+</main>
+	</body>
+</html>

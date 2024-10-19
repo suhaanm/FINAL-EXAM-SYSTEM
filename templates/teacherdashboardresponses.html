@@ -1,0 +1,54 @@
+<html>
+<head><title>Responses - {{examkey}}</title>
+<link rel = "icon" href = "/static/img/logo.png" type = "image/x-icon">
+<link rel="stylesheet" href="/static/css/dist/dark.min.css">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+</head>
+<body>
+<center>
+<h1 style="display: inline-block;">Responses - {{examkey}}</h1>
+<a href="/teacher/dashboard/statistics/{{examkey}}"><button style="background-color: #C4E9F3; color:black;"><img src="/static/img/altstats.svg" height="30" width="30" style="border:white;">Statistics</button></a>
+<br>
+<br>
+<p>Highest Score: {{highest}}/{{m}}<br>Average: {{avg}}/{{m}}<br>Lowest Score:  {{lowest}}/{{m}}<br>Total Responses: {{res}}<br>Median Score: {{median}}/{{m}}</p>
+<br>
+<br>
+<table>
+      <thead>
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Distribution</th>
+          <th>Score</th>
+          <th>More</th>
+        </tr>
+      </thead>
+      <tbody>
+{% for i in range(names|length-1,-1,-1): %}
+        <tr>
+          <td>{{names[i]|safe}}</td>
+          <td>{{emails[i]}}</td>
+          <td>{{distributions[i]}}</td>
+          <td>{{scores[i]}}/{{m}}</td>
+          <td><details>
+      <summary>More</summary>
+      <b>Focus Lost:</b>{{focusList[i]}} time(s)<br>
+      <b>Start: </b>{{starttimes[i]}}
+      <b>End: </b>{{endtimes[i]}}<br>
+      <b>Responses: </b>
+      {% for j in range(0,responses[i]|length): %}
+        {{j+1}}: {{responses[i][j]}} <br>
+      {% endfor %}
+      <br>
+      <details>
+        <summary>Delete Response</summary>
+        <a href="/teacher/dashboard/responses/{{examkey}}/delete/{{emails[i]}}/{{i}}"><button style="background-color:#F19094; color:black;">DELETE</button></a>
+      </details>
+    </details></td>
+        </tr>
+{% endfor %}
+      </tbody>
+    </table>
+</center>
+</body>
+</html>
